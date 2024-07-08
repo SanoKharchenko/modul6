@@ -12,6 +12,8 @@ class User:
     def __eq__(self, other):
         return self.nickname == other.nickname
 
+    def __str__(self):
+        return {self.nickname}  # and {self.age}
 class Video:
     def __init__(self, title: str, duration, adult_mode: bool = False):
         self.title = title  #заголовок
@@ -35,11 +37,11 @@ class UrTube:
             if user.nickname == nickname:
                 print(f'Пользователь {nickname} уже существует')
                 return
-        else:
-            new_user = User(nickname, password, age)
-            self.users.append(new_user)
-            self.current_user = new_user
-            print(f'Пользователь {nickname} зарегистрирован и вошел в систему.')
+
+        new_user = User(nickname, password, age)
+        self.users.append(new_user)
+        self.current_user = new_user
+        print(f'Пользователь {nickname} зарегистрирован и вошел в систему.')
 
     def log_out(self):
         self.current_user = None
@@ -65,13 +67,13 @@ class UrTube:
                 if video.adult_mode and self.current_user.age < 18:
                     print("Вам нет 18 лет, пожалуйста покиньте страницу")
                     return
-            for second in range(video.time_now, video.duration + 1):
-                print(f"{second + 1} ", end='')
-                video.time_now += 1
-                time.sleep(1)
-            print("Конец видео")
-            video.time_now = 0
-            return
+        for second in range(video.time_now, video.duration):
+            print(f"{second+1} ", end='')
+            video.time_now += 1
+            time.sleep(0)
+        print("Конец видео")
+        video.time_now = 0
+        return
     print('Нет видео')
 
 
